@@ -31,4 +31,9 @@ public class FloorCell {
      */
     public int identifier;
 
+
+    //position in the plan
+    public int column;
+    public int row;
+
 }

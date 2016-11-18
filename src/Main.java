@@ -64,6 +64,8 @@ public class Main {
                             System.out.print(" C"+Character.getNumericValue(c)+" ");
                     }
 
+                    cell.row=i;
+                    cell.column=j;
                     plan[i][j]=cell;
                     j++;
                 }
@@ -76,5 +78,8 @@ public class Main {
         }catch(IOException ex){
             System.out.println("IOEXception");
         }
+
+
+
     }
 }
