@@ -16,6 +16,7 @@ public class Main {
             BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\S N Rao\\IdeaProjects\\IndoorNavigation\\src\\plan.txt"));
             String line = br.readLine();
 
+            System.out.println("C=Common Area, P=Path, RM=Restroom Male, RF=Restroom Female, CX=Classroom X, S=Stairs, E=Elevator");
             int i=0,j=0;
             while (line != null) {
                 j=0;
