@@ -3,6 +3,10 @@
  */
 public class FloorCell {
 
+    public enum CellType{
+        PATH, CLASSROOM, WASHROOM, COMMONAREA, STAIRS, ELEVATOR, BOUNDARY;
+    }
+
     /*
     Type of cell
 
@@ -14,7 +18,7 @@ public class FloorCell {
     6: Elevator
     7: Boundary
      */
-    public int type;
+    public CellType type;
 
 
 
