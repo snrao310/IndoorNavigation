@@ -93,8 +93,10 @@ public class Graph {
     }
 
 
-    public HashMap<FloorCell,FloorCell> BFS(FloorCell start) {
+    //finds the path to the nearest celltype specified.
+    public FloorCell[] findPath(FloorCell start, FloorCell.CellType cellType) {
         Queue queue = new Queue();
+        FloorCell curr=null;
         HashMap<FloorCell, FloorCell> parent = new HashMap<>();
         HashMap<FloorCell, Boolean> visited = new HashMap<>();
         for (FloorCell node : nodes.keySet()) {
@@ -105,7 +107,9 @@ public class Graph {
         parent.put(start, null);
 
         while (!queue.isEmpty()) {
-            FloorCell curr = queue.dequeue();
+            curr = queue.dequeue();
+            if(curr.type==cellType)
+                break;
             LinkedList<FloorCell> neighbours = nodes.get(curr);
             for (FloorCell n : neighbours) {
                 if (!visited.get(n)) {
@@ -116,7 +120,23 @@ public class Graph {
             }
         }
 
-        return parent;
+        FloorCell temp=curr;
+        int i=0;
+        while(temp!=null){
+            temp=parent.get(temp);
+            i++;
+        }
+
+        temp=curr;
+        int j=0;
+        FloorCell path[] = new FloorCell[i];
+        while(temp!=null){
+            path[i-j-1]=temp;
+            temp=parent.get(temp);
+            j++;
+        }
+
+        return path;
     }
 
 }

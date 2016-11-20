@@ -9,22 +9,41 @@ public class Main {
     private static final int sizeOfPlan=14;
 
 
-//    private static final int path=1;
-//    private static final int classroom=2;
-//    private static final int washroom=3;
-//    private static final int commonArea=4;
-//    private static final int stairs=5;
-//    private static final int elevator=6;
-//    private static final int boundary=7;
-
-
-
 
     public static void main(String[] args){
+
+        //Matrix to store the floorplan
         FloorCell plan[][]=new FloorCell[sizeOfPlan][sizeOfPlan];
 
+        //read plan from file and store in matrix in required form
+        ProcessData(plan);
 
 
+        //create graph from matrix
+        Graph graph = createGraph(plan);
+
+
+        //Ashish's part: get the source and destination.
+
+
+        //get path from source to destination using the graph
+        FloorCell path[]= graph.findPath(plan[1][1], FloorCell.CellType.WASHROOM);
+
+
+        //print the path
+        for(FloorCell k: path){
+                System.out.println(k.type+"["+k.row+","+k.column+"]");
+        }
+    }
+
+
+
+
+
+
+    public static void ProcessData(FloorCell[][] plan){
+
+        //read from file and store data in the matrix
         try {
             BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\S N Rao\\IdeaProjects\\IndoorNavigation\\src\\plan.txt"));
             String line = br.readLine();
@@ -92,21 +111,16 @@ public class Main {
         }catch(IOException ex){
             System.out.println("IOEXception");
         }
-
-
-        Graph graph = createGraph(plan);
-        HashMap<FloorCell,FloorCell> path= graph.BFS(plan[1][1]);
-
-        for(FloorCell k: path.keySet()){
-            FloorCell v=path.get(k);
-            if(v!=null)
-                System.out.println(k.type+"["+k.row+","+k.column+"]"+" : "+v.type+"["+v.row+","+v.column+"]");
-        }
     }
+
+
+
+
 
     public static Graph createGraph(FloorCell[][] plan){
         Graph graph=new Graph();
 
+        //create node for all types except boundary
         for(FloorCell[] cellArray: plan){
             for(FloorCell cell: cellArray){
                 if(cell.type== FloorCell.CellType.BOUNDARY)
@@ -116,6 +130,7 @@ public class Main {
             }
         }
 
+        //connect each node with all surrounding nodes except boundary nodes and null nodes (for last nodes in row/column)
         for(FloorCell[] cellArray: plan){
             for(FloorCell cell: cellArray){
                 if(cell.type== FloorCell.CellType.BOUNDARY)
