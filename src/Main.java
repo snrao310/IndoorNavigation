@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -7,6 +8,8 @@ import java.util.HashMap;
 public class Main {
 
     private static final int sizeOfPlan=14;
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
 
 
@@ -33,6 +36,42 @@ public class Main {
         //print the path
         for(FloorCell k: path){
                 System.out.println(k.type+"["+k.row+","+k.column+"]");
+        }
+
+
+        for(int i=0;i<plan.length;i++){
+            for(int j=0;j<plan[i].length;j++){
+                if(Arrays.asList(path).contains(plan[i][j]))
+                    System.out.print(ANSI_RED);
+                FloorCell.CellType cellType=plan[i][j].type;
+                switch (cellType){
+                    case PATH:
+                        System.out.print(" P  ");
+                        break;
+                    case WASHROOM:
+                        if(plan[i][j].identifier==1)
+                            System.out.print(" RM ");
+                        else
+                            System.out.print(" RF ");
+                        break;
+                    case COMMONAREA:
+                        System.out.print(" CA ");
+                        break;
+                    case STAIRS:
+                        System.out.print(" S  ");
+                        break;
+                    case ELEVATOR:
+                        System.out.print(" E  ");
+                        break;
+                    case BOUNDARY:
+                        System.out.print("||||");
+                        break;
+                    default:
+                        System.out.print(" C"+plan[i][j].identifier+" ");
+                }
+                System.out.print(ANSI_RESET);
+            }
+            System.out.println();
         }
     }
 
