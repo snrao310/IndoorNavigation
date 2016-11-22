@@ -7,7 +7,8 @@ import java.util.HashMap;
  */
 public class Main {
 
-    private static final int sizeOfPlan=14;
+    private static final int heightOfPlan=16;
+    private static final int widthOfPlan=13;
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
@@ -16,7 +17,7 @@ public class Main {
     public static void main(String[] args){
 
         //Matrix to store the floorplan
-        FloorCell plan[][]=new FloorCell[sizeOfPlan][sizeOfPlan];
+        FloorCell plan[][]=new FloorCell[heightOfPlan][widthOfPlan];
 
         //read plan from file and store in matrix in required form
         ProcessData(plan);
@@ -30,7 +31,7 @@ public class Main {
 
 
         //get path from source to destination using the graph
-        FloorCell path[]= graph.findPath(plan[1][1], FloorCell.CellType.WASHROOM);
+        FloorCell path[]= graph.findPath(plan[9][2], FloorCell.CellType.STAIRS,-1);
 
 
         //print the path
@@ -39,6 +40,14 @@ public class Main {
         }
 
 
+        //print path in the plan
+        printPath(plan, path);
+    }
+
+
+
+
+    public static void printPath(FloorCell plan[][], FloorCell path[]){
         for(int i=0;i<plan.length;i++){
             for(int j=0;j<plan[i].length;j++){
                 if(Arrays.asList(path).contains(plan[i][j]))
@@ -61,7 +70,7 @@ public class Main {
                         System.out.print(" S  ");
                         break;
                     case ELEVATOR:
-                        System.out.print(" E  ");
+                        System.out.print(" E"+plan[i][j].identifier+" ");
                         break;
                     case BOUNDARY:
                         System.out.print("||||");
@@ -77,20 +86,19 @@ public class Main {
 
 
 
-
-
-
     public static void ProcessData(FloorCell[][] plan){
 
         //read from file and store data in the matrix
         try {
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\S N Rao\\IdeaProjects\\IndoorNavigation\\src\\plan.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("/home/snrao/IDE/IntelliJProjects/IndoorNavigation/src/plan.txt"));
             String line = br.readLine();
+            int elvNumber=1;
 
             System.out.println("C=Common Area, P=Path, RM=Restroom Male, RF=Restroom Female, CX=Classroom X, S=Stairs, E=Elevator");
             int i=0,j=0;
             while (line != null) {
                 j=0;
+                Boolean elevatorYes=false;
                 for(char c: line.toCharArray()){
                     FloorCell cell=new FloorCell();
 
@@ -122,13 +130,16 @@ public class Main {
                             break;
                         case 'E':
                             cell.type= FloorCell.CellType.ELEVATOR;
-                            cell.identifier=-1;
-                            System.out.print(" E  ");
+                            cell.identifier=elvNumber;
+                            elevatorYes=true;
+                            System.out.print(" E"+elvNumber+" ");
                             break;
                         case 'B':
                             cell.type= FloorCell.CellType.BOUNDARY;
                             cell.identifier=-1;
                             System.out.print("||||");
+                            if(j!=0 && plan[i][j-1].type== FloorCell.CellType.ELEVATOR)
+                                elvNumber++;
                             break;
                         default:
                             cell.type= FloorCell.CellType.CLASSROOM;
@@ -142,6 +153,8 @@ public class Main {
                     j++;
                 }
                 line = br.readLine();
+                if(elevatorYes)
+                    elvNumber++;
                 i++;
                 System.out.println();
             }

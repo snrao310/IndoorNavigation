@@ -94,7 +94,7 @@ public class Graph {
 
 
     //finds the path to the nearest celltype specified.
-    public FloorCell[] findPath(FloorCell start, FloorCell.CellType cellType) {
+    public FloorCell[] findPath(FloorCell start, FloorCell.CellType cellType, int identifier) {
         Queue queue = new Queue();
         FloorCell curr=null;
         HashMap<FloorCell, FloorCell> parent = new HashMap<>();
@@ -108,7 +108,7 @@ public class Graph {
 
         while (!queue.isEmpty()) {
             curr = queue.dequeue();
-            if(curr.type==cellType)
+            if(curr.type==cellType && (identifier==-1 || curr.identifier==identifier))
                 break;
             LinkedList<FloorCell> neighbours = nodes.get(curr);
             for (FloorCell n : neighbours) {
