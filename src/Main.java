@@ -30,7 +30,7 @@ public class Main {
 
 
         //get path from source to destination using the graph
-        FloorCell path[] = graph.findPath(plan[2][2], FloorCell.CellType.WASHROOM, 0);
+        FloorCell path[] = graph.findPath(plan[2][2], FloorCell.CellType.STAIRS, -1);
 
 
         //print the path
@@ -167,6 +167,12 @@ public class Main {
                 if(moveOut)
                     result += ", Take a right and go straight";
 
+                else if(rightCount==0)
+                    result+=", Take the first right";
+
+                else if(rightCount==1)
+                    result+=". After "+ rightCount + " right, take a right and go straight";
+
                 else {
 
                     if (rightCount !=0)
@@ -178,11 +184,18 @@ public class Main {
 
             if (left) {
                 if(moveOut)
-                    result += ", Take a right and go straight";
+                    result += ", Take a left and go straight";
+
+                else if(leftCount==0)
+                    result+=", Take the first left";
+
+                else if(leftCount==1)
+                    result+=". After "+ rightCount + " left, take a left and go straight";
+
 
                 else {
                         if (leftCount !=0)
-                            result += ". After "+ leftCount + " rights, take a right and go straight";
+                            result += ". After "+ leftCount + " lefts, take a left and go straight";
                 }
                 rightCount = leftCount = 0;
                 moveOut=false;
