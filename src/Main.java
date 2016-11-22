@@ -34,6 +34,10 @@ public class Main {
 
 
         //get path from source to destination using the graph
+        //findPath (source, destination type, identifier)
+        //classroom : identifier is classroom number
+        //washroom: 0 for female, 1 for male.
+        //for all others identifier is -1.
         FloorCell path[] = graph.findPath(plan[2][2], FloorCell.CellType.STAIRS, -1);
 
 
