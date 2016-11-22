@@ -108,6 +108,7 @@ public class Graph {
 
         while (!queue.isEmpty()) {
             curr = queue.dequeue();
+            System.out.println(curr.type+"["+curr.row+","+curr.column+"]");
             if(curr.type==cellType && (identifier==-1 || curr.identifier==identifier))
                 break;
             LinkedList<FloorCell> neighbours = nodes.get(curr);
