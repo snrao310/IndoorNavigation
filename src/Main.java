@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * Created by S N Rao on 11/18/2016.
@@ -25,6 +26,9 @@ public class Main {
         //create graph from matrix
         Graph graph = createGraph(plan);
 
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
+        System.out.println("Enter a qyery: ");
+        String s = reader.nextLine();
 
         //Ashish's part: get the source and destination.
 
